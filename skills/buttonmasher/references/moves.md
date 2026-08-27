@@ -70,7 +70,7 @@ before the DB write.
 | Interrupt it | Leave at step 3, come back tomorrow | Can't resume; or resumes into inconsistent state | Persist progress server-side; make each step re-enterable |
 | Reorder it | Deep-link straight to step 4 | Step 4 assumes 1-3 happened | Each step checks prerequisites, not the previous page |
 | Refresh it | Reload on the final "confirming..." step | Duplicate final action, or lost confirmation | Final action idempotent; confirmation page reads state |
-| Repeat it | Click "Resend code" five times | Five codes; only the last works, or all do | Rate-limit softly; make all recent codes valid or clearly invalidate old ones |
+| Repeat it | Click "Resend code" five times | User types the code from the first email and it is rejected with no hint that a newer one replaced it; or all five stay valid forever | Rate-limit softly; either keep recent codes valid or say "a new code was sent" on rejection. Silently invalidating old codes is not boring |
 | Race it | Finish the flow in two tabs | Two completions | Single-completion check inside a transaction |
 
 Signs: step N's handler reads nothing from the DB about steps 1..N-1; a

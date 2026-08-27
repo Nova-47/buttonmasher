@@ -12,6 +12,7 @@ const checks = [
   ["no preamble before first finding", !/^(Target|Summary|Overview|Happy path)/im.test(lines.slice(1, 4).join("\n"))],
   ["every BROKE has a Retest", (text.match(/^BROKE/gm) || []).length <= (text.match(/^Retest:/gm) || []).length],
   ["no closing recap paragraph", !/^(Recap|Summary|In summary|Overall|To summarize)[: ]/im.test(text)],
+  ["ends on the boring line", /boring/i.test(lines.filter((l) => l.trim()).at(-1) || "")],
   ["catches the double charge (demo only)", !process.env.DEMO || /charg/i.test(text)],
 ];
 let bad = 0;

@@ -111,6 +111,9 @@ Propose instead of fixing when it needs: a new table or column, a new client
 contract (e.g. introducing idempotency keys end to end), a queue or lock
 service, or a change to behaviour the user might have chosen on purpose.
 
+If you are not allowed to write files, say so inside each finding: "Proposed
+(write declined)." Do not open the report with it.
+
 Never add: retry frameworks, generic "safe wrappers", feature flags, config
 knobs, or abstractions for a second use case that doesn't exist. The fix for a
 double-submit is usually one `if`, one constraint, or one `disabled` attribute.
@@ -141,7 +144,9 @@ Open the report with `BUTTONMASHER` and go straight to the first finding: no
 target summary, no happy-path recap, no "could not run a server" preamble
 (say that inside the Retest line instead). Close it with one line for the boring
 stuff: "Refresh, Back, and empty submit were all boring." That line is the
-end. No "Recap:", no "Summary:", no closing paragraph restating the findings.
+last line of the output. No "Recap:", no "Summary:", no closing paragraph,
+no "the test script is at ..." — put reproduction commands inside the Retest
+line of the finding they belong to.
 If nothing broke at all: one line per move you tried, then "Boring. Good."
 
 ❌ "It's worth noting that the checkout endpoint might potentially be
