@@ -2,7 +2,7 @@
 
 > *두 번 클릭할 수 있다면, 반드시 두 번 클릭할 겁니다.*
 
-<p align="center"><img src="assets/logo.jpg" width="280" alt="buttonmasher: SUBMIT을 또 누르려는 씩 웃는 사용자"></p>
+<p align="center"><picture><source media="(prefers-color-scheme: light)" srcset="assets/logo-light.svg"><img src="assets/logo.svg" width="280" alt="buttonmasher: SUBMIT을 또 누르려는 씩 웃는 사용자"></picture></p>
 
 **사용자는 설명서를 읽지 않습니다.**
 
@@ -186,7 +186,7 @@ buttonmasher/
 │   └── references/moves.md  경계 유형별 무브, 징후가 되는 코드 냄새, 흔한 수정
 ├── examples/                깨진 코드부터 수정까지 담은 리포트 다섯 개
 ├── demo/                    첫 화면의 그 엔드포인트, 실행 가능, 실제 출력 포함
-└── assets/logo.jpg          그 녀석
+└── assets/                  그 녀석: logo.svg, logo-light.svg, social-preview.png, 원본 jpg
 ```
 
 훅 없음. 의존성 없음. 설정 없음.

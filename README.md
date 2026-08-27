@@ -2,7 +2,7 @@
 
 > *if it can be clicked twice, it will be.*
 
-<p align="center"><img src="assets/logo.jpg" width="280" alt="buttonmasher: a grinning user about to hit SUBMIT again"></p>
+<p align="center"><picture><source media="(prefers-color-scheme: light)" srcset="assets/logo-light.svg"><img src="assets/logo.svg" width="280" alt="buttonmasher: a grinning user about to hit SUBMIT again"></picture></p>
 
 **users don’t read instructions.**
 
@@ -183,7 +183,7 @@ buttonmasher/
 │   └── references/moves.md  each move per boundary type, the smell that predicts it, the usual fix
 ├── examples/                five reports with the code that broke and the fix
 ├── demo/                    the front-page endpoint, runnable, with real output
-└── assets/logo.jpg          the guy
+└── assets/                  the guy: logo.svg, logo-light.svg, social-preview.png, original jpg
 ```
 
 No hooks, no dependencies, no config. The only scripts are the demo, and
