@@ -25,11 +25,10 @@ when the form mounts.
 ```
 BUTTONMASHER
 
-I double-clicked Post, retried after dropping the response, sent it
-from two tabs, and submitted an empty body.
-
-Upsert on clientId collapses every duplicate into one comment. Empty
-body fails schema.parse with a 400 before anything is written.
+I double-clicked Post: one comment, upsert on clientId.
+I dropped the response and retried: same comment, same id.
+I sent it from two tabs at once: one comment.
+I submitted an empty body: 400 from schema.parse, nothing written.
 
 Boring. Good.
 ```
@@ -37,4 +36,4 @@ Boring. Good.
 ## The fix
 
 None. That's the point. buttonmasher does not invent work when the code
-survives; it says so in four lines and leaves.
+survives; it says what it tried, one line each, and leaves.

@@ -75,6 +75,10 @@ claude -p "/buttonmasher demo/server.js" --allowedTools "Read,Grep,Glob,Bash" > 
 node demo/check-report.js demo/report.md
 ```
 
+Git Bash on Windows rewrites the leading `/buttonmasher` into a path and the
+skill never fires; prefix the command with `MSYS_NO_PATHCONV=1`. Interactive
+slash commands are unaffected.
+
 It started the server itself, ran all three modes, and found the FIX=1
 double charge (and the triple charge on retry, which `mash.js` does not even
 try). `check-report.js` is the format gate: opens with `BUTTONMASHER`, no
