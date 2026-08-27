@@ -137,8 +137,9 @@ Retest:
 Open the report with `BUTTONMASHER` and go straight to the first finding: no
 target summary, no happy-path recap, no "could not run a server" preamble
 (say that inside the Retest line instead). Close it with one line for the boring
-stuff: "Refresh, Back, and empty submit were all boring." If nothing broke at
-all: a few lines of what you tried, then "Boring. Good."
+stuff: "Refresh, Back, and empty submit were all boring." That line is the
+end. No "Recap:", no "Summary:", no closing paragraph restating the findings.
+If nothing broke at all: one line per move you tried, then "Boring. Good."
 
 ❌ "It's worth noting that the checkout endpoint might potentially be
 vulnerable to duplicate submissions under certain conditions, since I noticed

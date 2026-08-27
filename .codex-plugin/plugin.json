@@ -1,0 +1,28 @@
+{
+  "name": "buttonmasher",
+  "version": "1.0.0",
+  "description": "Tests code the way impatient users will: click it twice, retry it, refresh it, reorder it. Finds duplicate submissions, missing idempotency, races, and broken multi-step flows.",
+  "author": { "name": "Nova", "url": "https://github.com/nova-47" },
+  "homepage": "https://github.com/nova-47/buttonmasher",
+  "repository": "https://github.com/nova-47/buttonmasher",
+  "license": "MIT",
+  "keywords": ["testing", "idempotency", "race-conditions", "double-submit"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "buttonmasher",
+    "shortDescription": "If it can be clicked twice, it will be.",
+    "longDescription": "Abuses a feature, endpoint, webhook, or diff the way an impatient real user will: double-submit, retry, refresh, reorder, race. Reports what broke and the smallest fix.",
+    "developerName": "Nova",
+    "category": "Testing",
+    "capabilities": ["Instructions"],
+    "websiteURL": "https://github.com/nova-47/buttonmasher",
+    "defaultPrompt": [
+      "Buttonmash the current diff.",
+      "What happens if the user clicks this twice?",
+      "Is this endpoint safe to retry?"
+    ],
+    "brandColor": "#111111",
+    "composerIcon": "./assets/logo.jpg",
+    "logo": "./assets/logo.jpg"
+  }
+}

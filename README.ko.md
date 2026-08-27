@@ -6,6 +6,8 @@
 
 **사용자는 설명서를 읽지 않습니다.**
 
+공격자가 아닙니다. 당신 팀이 끝내 뽑지 않은 그 테스터입니다: 악의는 없고, 스피너를 기다려 줄 생각도 없을 뿐.
+
 진짜 사용자가 결국 하게 될 방식으로 코드를 테스트하는 에이전트 스킬: 반복해서, 참을성 없이, 순서를 무시하고.
 
 <sub><a href="README.md">English</a></sub>
@@ -56,14 +58,15 @@ BROKE — 주문도 결제도 두 번
 주문 둘.
 
 가장 작은 수정:
-버튼에 disabled={busy}; orders(cart_id) 유니크 인덱스;
-Stripe 호출에 idempotencyKey. 적용함, 4줄.
+Stripe 호출에 idempotencyKey; 버튼에 disabled={busy}.
+적용함, 3줄. orders(cart_id) 유니크 인덱스는 마이그레이션이라
+제안만.
 
 재테스트:
-동시 POST 두 개 → 주문 하나.
+동시 POST 두 개 → 결제 하나.
 ```
 
-예제 넷 더: [examples/](examples/) (영문).
+예제 넷 더: [examples/](examples/) (영문). 진짜로 깨지는 걸 보고 싶으면 [demo/](demo/): 위의 그 엔드포인트를 실행 가능하게 만들고 동시 POST 두 개를 쏜 실제 출력이 있습니다. 수정 없음, 충분해 보이지만 아닌 수정, 그리고 진짜 수정.
 
 ## 하는 일
 
@@ -127,6 +130,8 @@ buttonmasher는 정상 경로를 파악하고, 상태가 바뀌는 지점을 찾
 
 이런 요청이면 스킬이 알아서 켜집니다.
 
+언제 돌리나: PR 올리기 직전, diff에. 코드가 아직 머릿속에 있고, 더블클릭이 아직 고객에게 일어나지 않은 유일한 순간입니다.
+
 브라우저나 실행 중인 서버가 있으면 실제로 두 번 클릭하고, 실제로 요청을 두 번 보냅니다.
 
 없으면 코드 경로를 따라가며 같은 상황을 분석하고, 실제 실행이 아니라 코드 분석이었다고 분명히 말합니다.
@@ -151,29 +156,42 @@ buttonmasher는 정상 경로를 파악하고, 상태가 바뀌는 지점을 찾
 
 두 명령을 차례로 입력합니다. 새 세션을 열면 `/buttonmasher`가 있습니다.
 
-### 아니면 스킬만 복사
+### Codex / Copilot CLI
+
+```
+codex plugin marketplace add Nova-47/buttonmasher && codex plugin add buttonmasher@buttonmasher
+copilot plugin marketplace add Nova-47/buttonmasher && copilot plugin install buttonmasher@buttonmasher
+```
+
+### SKILL.md를 읽는 모든 도구 (Cursor, OpenCode, Gemini CLI, ...)
 
 ```bash
 git clone https://github.com/Nova-47/buttonmasher
-cp -r buttonmasher/skills/buttonmasher ~/.claude/skills/      # 모든 프로젝트
-cp -r buttonmasher/skills/buttonmasher .claude/skills/        # 이 프로젝트만
+cp -r buttonmasher/skills/buttonmasher ~/.claude/skills/      # Claude Code, 모든 프로젝트
+cp -r buttonmasher/skills/buttonmasher .claude/skills/        # Claude Code, 이 프로젝트만
+cp -r buttonmasher/skills/buttonmasher .agents/skills/        # Codex / Copilot, 이 프로젝트만
 ```
+
+스킬은 마크다운 파일 하나와 참조 표 하나입니다. 훅이 없으니 포팅할 것도 없습니다. `SKILL.md`를 읽는 에이전트라면 이것도 읽습니다. Codex·Copilot 매니페스트는 ponytail 것을 그대로 따랐고, 이 레포에서 실제 설치는 아직 검증하지 않았습니다.
 
 ### 구성
 
 ```
 buttonmasher/
-├── .claude-plugin/          플러그인 + 마켓플레이스 매니페스트 (작은 JSON 두 개)
+├── .claude-plugin/          Claude Code 플러그인 + 마켓플레이스 매니페스트
+├── .codex-plugin/           Codex 플러그인 매니페스트
+├── .github/plugin/          Copilot CLI 플러그인 + 마켓플레이스 매니페스트
 ├── skills/buttonmasher/
 │   ├── SKILL.md             스킬 본체: 무브, 워크플로우, 심각도, 수정 규칙, 리포트 형식
 │   └── references/moves.md  경계 유형별 무브, 징후가 되는 코드 냄새, 흔한 수정
 ├── examples/                깨진 코드부터 수정까지 담은 리포트 다섯 개
+├── demo/                    첫 화면의 그 엔드포인트, 실행 가능, 실제 출력 포함
 └── assets/logo.jpg          그 녀석
 ```
 
-스크립트 없음. 훅 없음. 의존성 없음. 설정 없음.
+훅 없음. 의존성 없음. 설정 없음.
 
-불필요한 장치를 사냥하는 스킬이 불필요한 장치를 싣고 다니면 안 됩니다.
+스크립트는 데모뿐입니다. "두 번 클릭했더니 두 번 결제됐다"고 말하는 스킬이라면 그걸 보여줄 수 있어야 하니까요.
 
 ## 그냥 테스트나 카오스 엔지니어링과 뭐가 다른가
 

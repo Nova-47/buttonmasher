@@ -6,6 +6,9 @@
 
 **users don’t read instructions.**
 
+He is not an attacker. He is the tester your team never hired: not malicious,
+just not going to wait for the spinner.
+
 An agent skill that tests your code the way real users eventually will: repeatedly, impatiently, and out of order.
 
 <sub><a href="README.ko.md">한국어</a></sub>
@@ -53,14 +56,15 @@ Two requests, 90ms apart. No in-flight guard on the button, no
 uniqueness on orders(cart_id). Two intents, two orders.
 
 Smallest fix:
-disabled={busy} on the button; unique index on orders(cart_id);
-idempotencyKey on the Stripe call. Applied, 4 lines.
+idempotencyKey on the Stripe call; disabled={busy} on the button.
+Applied, 3 lines. Unique index on orders(cart_id): proposed, it is
+a migration.
 
 Retest:
-Two concurrent POSTs → one order.
+Two concurrent POSTs → one charge.
 ```
 
-Four more in [examples/](examples/).
+Four more in [examples/](examples/). Want to see it break for real? [demo/](demo/) is that endpoint, runnable, with the output of two concurrent POSTs against it: no fix, the fix that looks sufficient (it isn't), and the one that is.
 
 ## What it does
 
@@ -115,6 +119,10 @@ buttonmasher's problem.
 /buttonmasher                      # abuses the current diff
 ```
 
+When to run it: on the diff, right before you open the PR. That is the one
+moment the code is fresh, the happy path is in your head, and the double-click
+has not happened to a customer yet.
+
 Or just ask: *"buttonmash the webhook handler"*, *"what happens if the user
 clicks this twice?"*, *"is this endpoint safe to retry?"* The skill triggers
 on its own for that kind of question.
@@ -136,34 +144,51 @@ actually sends two requests. If not, it traces the code path and says so.
 ### Claude Code plugin
 
 ```
-/plugin marketplace add nova-47/buttonmasher
+/plugin marketplace add Nova-47/buttonmasher
 /plugin install buttonmasher@buttonmasher
 ```
 
 Two separate prompts. Start a new session and `/buttonmasher` is there.
 
-### Or just copy the skill
+### Codex / Copilot CLI
 
 ```
-git clone https://github.com/nova-47/buttonmasher
-cp -r buttonmasher/skills/buttonmasher ~/.claude/skills/      # every project
-cp -r buttonmasher/skills/buttonmasher .claude/skills/        # this project
+codex plugin marketplace add Nova-47/buttonmasher && codex plugin add buttonmasher@buttonmasher
+copilot plugin marketplace add Nova-47/buttonmasher && copilot plugin install buttonmasher@buttonmasher
 ```
+
+### Anything that reads SKILL.md (Cursor, OpenCode, Gemini CLI, ...)
+
+```
+git clone https://github.com/Nova-47/buttonmasher
+cp -r buttonmasher/skills/buttonmasher ~/.claude/skills/      # Claude Code, every project
+cp -r buttonmasher/skills/buttonmasher .claude/skills/        # Claude Code, this project
+cp -r buttonmasher/skills/buttonmasher .agents/skills/        # Codex / Copilot, this project
+```
+
+The skill is one Markdown file plus one reference table. No hooks, so there is
+nothing to port; if your agent loads `SKILL.md` files, it loads this one. The
+Codex and Copilot manifests mirror ponytail's, which are known to install; they
+have not been exercised against those CLIs from this repo yet.
 
 ### What's in the box
 
 ```
 buttonmasher/
-├── .claude-plugin/          plugin + marketplace manifests (two small JSON files)
+├── .claude-plugin/          Claude Code plugin + marketplace manifests
+├── .codex-plugin/           Codex plugin manifest
+├── .github/plugin/          Copilot CLI plugin + marketplace manifests
 ├── skills/buttonmasher/
 │   ├── SKILL.md             the skill: moves, workflow, severity, fix rules, report format
 │   └── references/moves.md  each move per boundary type, the smell that predicts it, the usual fix
 ├── examples/                five reports with the code that broke and the fix
+├── demo/                    the front-page endpoint, runnable, with real output
 └── assets/logo.jpg          the guy
 ```
 
-No scripts, no hooks, no dependencies, no config. A skill that hunts for
-unnecessary machinery should not ship any.
+No hooks, no dependencies, no config. The only scripts are the demo, and
+they exist because a skill that says "I clicked it twice" should be able to
+prove it.
 
 ## Why this isn't just tests, or just chaos engineering
 

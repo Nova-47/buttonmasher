@@ -45,13 +45,17 @@ One impatient click charges the customer twice. A slow response
 makes the second click almost guaranteed.
 
 Smallest fix:
-Disable the button while pending; unique index on orders(cart_id);
-pass the cart id as Stripe's idempotency key so a retry reuses the
-intent. Applied.
+Pass the cart id as Stripe's idempotency key so every retry reuses
+one intent; disable the button while pending. Applied, 3 lines.
+Proposed, not applied: a unique index on orders(cart_id). It is a
+migration, it fails if the table already holds duplicates, and it
+forbids re-ordering from a cart after a cancelled order, which may
+be a policy you chose. Run it once you have checked both.
 
 Retest:
-Two concurrent POSTs for the same cart → one intent, one order;
-second request gets 409 with the existing order id.
+Two concurrent POSTs for the same cart → one intent. Without the
+index there are still two order rows pointing at that one intent;
+with it, one row and the second request returns the existing order.
 
 Refresh on the confirmation page and Back after paying were boring.
 ```
@@ -79,10 +83,14 @@ Refresh on the confirmation page and Back after paying were boring.
 +    { amount: cart.total }, { idempotencyKey: `cart-${cart.id}` });
 ```
 
+Proposed, for you to run after checking existing data and your re-order policy:
+
 ```sql
 CREATE UNIQUE INDEX orders_one_per_cart ON orders (cart_id);
 ```
 
-The button fix stops the double-click. The index stops everything else:
-retries, two tabs, a flaky client library. You want both; the server-side
-one is the one that matters.
+The button fix stops the double-click. The idempotency key stops the double
+charge, which is the one that costs money: [demo/](../demo/) shows that a
+unique index alone still charges twice, because both requests reach Stripe
+before either reaches the insert. The index stops the duplicate row, and it is
+a schema change, so buttonmasher proposes it instead of applying it.

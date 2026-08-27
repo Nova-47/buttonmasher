@@ -37,19 +37,27 @@ Every slow email send turns into a confused user and a support
 ticket. With a flaky mailer this is most invites.
 
 Smallest fix:
-Respond 201 right after the insert and send the mail after the
-response; on the duplicate path return 200 with the existing invite
-instead of 409, so a retry looks like success. Applied.
+Two lines, both proposed, neither applied: they change what the
+client sees. (1) On the duplicate path return 200 with the existing
+invite instead of 409, so a retry looks like the success it was.
+(2) Send the mail after the response instead of before it, so a
+slow mailer cannot turn a committed insert into a timeout. If a
+client branches on 409, or if a failed send must fail the request,
+you will want to know before I change it.
 
 Retest:
-Insert, drop the response, retry → 200 with the same invite id.
-One email sent.
+Traced, not run: with (1) the retry returns the same invite id;
+with (2) the response leaves before mailer.send starts. Nothing
+sends twice either way because the insert happens once.
 
 Sending twice with different emails and empty email were boring
 (validation catches empty).
 ```
 
 ## The fix
+
+Proposed. Both hunks change the API contract, which is where buttonmasher
+stops fixing and starts asking.
 
 ```diff
    const existing = await db.invites.findOne({ email, teamId, status: "pending" });
@@ -66,3 +74,8 @@ Sending twice with different emails and empty email were boring
 A retry of a create that already happened should look like the create
 succeeding, not like an error. "Already exists" is only an error when the
 caller could not have been the one who created it.
+
+The `.catch(log.error)` is the honest part of this proposal: a mail that
+fails after the response is logged, not retried. If losing it is not
+acceptable, the real fix is a job queue, and that is a bigger change than
+buttonmasher makes on its own.

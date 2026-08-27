@@ -37,16 +37,20 @@ Free money. Amount depends on how flaky notify() is.
 Smallest fix:
 Insert event.id into a processed_events table with a unique
 constraint, in the same transaction as the increment; skip on
-conflict. Applied.
+conflict. Proposed: it is a new table, so you run the migration.
+The handler change is 4 lines and is below.
 
 Retest:
-Same event delivered three times → one increment, three 200s.
+Traced against the proposed code: same event delivered three
+times → one increment, three 200s.
 
 Out-of-order (succeeded before created) was boring: the handler
 doesn't depend on the created event.
 ```
 
 ## The fix
+
+Proposed. The new table is the part buttonmasher does not create on its own.
 
 ```diff
      if event.type == "payment_intent.succeeded":
