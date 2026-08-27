@@ -69,7 +69,7 @@ Retest:
 Two concurrent POSTs → one charge.
 ```
 
-It does not only double-click. Same session, the signup wizard:
+It does not only double-click. Another target, the signup wizard:
 
 ```
 BROKE — activation without verification
@@ -81,6 +81,9 @@ activates an unverified account with plan = nil.
 
 Smallest fix:
 Two guards at the top of activate. Applied, 2 lines.
+
+Retest:
+GET /activate unverified → redirected to /verify, status unchanged.
 ```
 
 Four more in [examples/](examples/). Want to see it break for real? [demo/](demo/) is that endpoint, runnable, with the output of two concurrent POSTs against it: no fix, the fix that looks sufficient (it isn't), and the one that is.

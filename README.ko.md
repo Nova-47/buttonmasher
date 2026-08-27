@@ -72,7 +72,7 @@ Stripe 호출에 idempotencyKey; 버튼에 disabled={busy}.
 동시 POST 두 개 → 결제 하나.
 ```
 
-더블클릭만 하는 게 아닙니다. 같은 세션, 가입 위저드:
+더블클릭만 하는 게 아닙니다. 다른 타깃, 가입 위저드:
 
 ```
 BROKE — 인증 없이 활성화
@@ -84,6 +84,9 @@ activate가 아무것도 확인하지 않는다: verified_at도, plan도.
 
 가장 작은 수정:
 activate 맨 위에 가드 두 줄. 적용함.
+
+재테스트:
+미인증 상태로 GET /activate → /verify로 리다이렉트, status 변화 없음.
 ```
 
 예제 넷 더: [examples/](examples/) (영문). 진짜로 깨지는 걸 보고 싶으면 [demo/](demo/): 위의 그 엔드포인트를 실행 가능하게 만들고 동시 POST 두 개를 쏜 실제 출력이 있습니다. 수정 없음, 충분해 보이지만 아닌 수정, 그리고 진짜 수정.
