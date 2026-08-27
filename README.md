@@ -2,12 +2,17 @@
 
 > *if it can be clicked twice, it will be.*
 
-<p align="center"><picture><source media="(prefers-color-scheme: light)" srcset="assets/logo-light.svg"><img src="assets/logo.svg" width="280" alt="buttonmasher: a grinning user about to hit SUBMIT again"></picture></p>
+<p align="center"><picture><source media="(prefers-color-scheme: light)" srcset="assets/logo-light.svg"><img src="assets/logo.svg" width="280" alt="buttonmasher: the guy, one finger already on SUBMIT"></picture></p>
 
 **users don’t read instructions.**
 
-He is not an attacker. He is the tester your team never hired: not malicious,
-just not going to wait for the spinner.
+You know him. Hair he has not touched since the last deploy. The grin.
+One finger already on SUBMIT, and the page has not finished loading. He
+clicked once, nothing happened for 300ms, so he clicked again. He is not
+an attacker. He is the tester your team never hired: not malicious, just
+not going to wait for the spinner.
+
+buttonmasher puts him inside your AI agent.
 
 An agent skill that tests your code the way real users eventually will: repeatedly, impatiently, and out of order.
 

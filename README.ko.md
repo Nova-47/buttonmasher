@@ -2,11 +2,17 @@
 
 > *두 번 클릭할 수 있다면, 반드시 두 번 클릭할 겁니다.*
 
-<p align="center"><picture><source media="(prefers-color-scheme: light)" srcset="assets/logo-light.svg"><img src="assets/logo.svg" width="280" alt="buttonmasher: SUBMIT을 또 누르려는 씩 웃는 사용자"></picture></p>
+<p align="center"><picture><source media="(prefers-color-scheme: light)" srcset="assets/logo-light.svg"><img src="assets/logo.svg" width="280" alt="buttonmasher: 그 녀석, 손가락은 이미 SUBMIT 위에"></picture></p>
 
 **사용자는 설명서를 읽지 않습니다.**
 
-공격자가 아닙니다. 당신 팀이 끝내 뽑지 않은 그 테스터입니다: 악의는 없고, 스피너를 기다려 줄 생각도 없을 뿐.
+아는 사람일 겁니다. 지난 배포 이후로 손도 안 댄 머리. 그 웃음. 페이지가
+다 뜨기도 전에 이미 SUBMIT 위에 올라가 있는 손가락. 한 번 눌렀는데
+300ms 동안 아무 일도 없길래 한 번 더 누른 사람. 공격자가 아닙니다.
+당신 팀이 끝내 뽑지 않은 그 테스터입니다: 악의는 없고, 스피너를 기다려
+줄 생각도 없을 뿐.
+
+buttonmasher는 그를 당신의 AI 에이전트 안에 넣습니다.
 
 진짜 사용자가 결국 하게 될 방식으로 코드를 테스트하는 에이전트 스킬: 반복해서, 참을성 없이, 순서를 무시하고.
 
