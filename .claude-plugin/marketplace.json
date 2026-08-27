@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "buttonmasher",
+  "description": "If it can be clicked twice, it will be. Tests code the way real users eventually will.",
+  "owner": {
+    "name": "Nova",
+    "url": "https://github.com/nova-47"
+  },
+  "plugins": [
+    {
+      "name": "buttonmasher",
+      "description": "Click it twice. Retry it. Refresh it. Reorder it. Finds duplicate submissions, missing idempotency, races, and broken multi-step flows.",
+      "source": "./",
+      "category": "testing"
+    }
+  ]
+}
