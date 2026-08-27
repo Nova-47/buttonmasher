@@ -79,6 +79,8 @@ It started the server itself, ran all three modes, and found the FIX=1
 double charge (and the triple charge on retry, which `mash.js` does not even
 try). `check-report.js` is the format gate: opens with `BUTTONMASHER`, no
 headers, no emoji, no preamble, a Retest for every BROKE, and no closing
-recap. The recorded report fails that last check, which is the point of
-having the check: the model wrote a three-line "Recap" where SKILL.md asks
-for one line. That is the kind of drift a format rule alone will not stop.
+recap. The first recorded run failed that last check: the model wrote a
+three-line "Recap" where SKILL.md asked for one closing line. SKILL.md now
+says so explicitly (no Recap, no Summary, the boring line is the end), and
+the report here is the re-run under that rule: 8/8. Keep the checker; that is
+the kind of drift a format rule alone will not stop the next time.
