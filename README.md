@@ -69,6 +69,20 @@ Retest:
 Two concurrent POSTs → one charge.
 ```
 
+It does not only double-click. Same session, the signup wizard:
+
+```
+BROKE — activation without verification
+
+I went straight to step 4.
+
+activate checks nothing: not verified_at, not plan. A bookmarked URL
+activates an unverified account with plan = nil.
+
+Smallest fix:
+Two guards at the top of activate. Applied, 2 lines.
+```
+
 Four more in [examples/](examples/). Want to see it break for real? [demo/](demo/) is that endpoint, runnable, with the output of two concurrent POSTs against it: no fix, the fix that looks sufficient (it isn't), and the one that is.
 
 ## What it does

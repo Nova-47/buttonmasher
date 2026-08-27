@@ -1,6 +1,6 @@
 {
   "name": "buttonmasher",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Tests code the way impatient users will: click it twice, retry it, refresh it, reorder it. Finds duplicate submissions, missing idempotency, races, and broken multi-step flows.",
   "author": { "name": "Nova", "url": "https://github.com/nova-47" },
   "homepage": "https://github.com/nova-47/buttonmasher",

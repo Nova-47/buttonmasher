@@ -93,7 +93,7 @@ start instead of abusing all of it.
 |---|---|
 | **BROKE** | A realistic action produced wrong state, data, money, or result. Reproduced. |
 | **FRAGILE** | Will plausibly break under retry / timing / navigation; not reproduced, or depends on timing you couldn't force. |
-| **ANNOYING** | User experience is bad but state stays correct. Wrong or missing data in a record is not ANNOYING, it is BROKE. Mention briefly, don't dwell. |
+| **ANNOYING** | User experience is bad but state stays correct. Wrong or missing data, or a wrong status, in a record is not ANNOYING, it is BROKE. Two lines: what you did, what happened. |
 | **BORING** | Survived the abuse. This is the goal. Say it and move on. |
 
 If nothing meaningful breaks, the report is short and that is a success, not a
@@ -121,8 +121,9 @@ double-submit is usually one `if`, one constraint, or one `disabled` attribute.
 
 ## Report format
 
-Plain text, findings first, worst first. Every finding has exactly these parts,
-in this order:
+Plain text, findings first, worst first. Every BROKE or FRAGILE finding has
+exactly these parts, in this order (ANNOYING gets two lines: what you did,
+what happened):
 
 ```
 <LABEL> — <three to six word title>
