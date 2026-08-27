@@ -40,7 +40,8 @@ Retry it.           client retries after timeout / 5xx / "no response"
 Refresh it.         reload mid-request, mid-workflow, on the result page
 Interrupt it.       navigate away, close tab, kill the process, Back button
 Empty it.           blank, whitespace, default, or unchanged input submitted
-Repeat it.          same request / webhook / job delivered again later
+Repeat it.          same request / webhook / job / "resend" delivered again later;
+                    a repeat that silently invalidates the first one is not boring
 Reorder it.         step 3 before step 2; confirm before create; old tab acts late
 Race it.            same action from two tabs / two requests at once
 ```

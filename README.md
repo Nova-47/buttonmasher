@@ -226,6 +226,11 @@ finds bugs that need an attacker; this finds bugs that need a Tuesday.
 Then you get four lines and your afternoon back. "Boring. Good." is the report
 you want.
 
+**I ran it twice and got different findings. Which run is right?**
+Both. It picks the five sharpest scenarios it sees, and it does not always
+see the same five. Anything labelled BROKE was reproduced in that run. If you
+want the union, run it twice.
+
 **Will it refactor my code into a "robust request pipeline"?**
 No. The fix for a double-submit is one `disabled` attribute and one unique
 index. If it proposes more than that, the code had more than one problem.
