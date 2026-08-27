@@ -67,7 +67,7 @@ key (even while the first is in flight) returns the first result.
 ## The skill against the demo
 
 `demo/report.md` is what `/buttonmasher demo/server.js` actually produced,
-headless, unedited:
+headless, unedited, with the SKILL.md shipped in v1.1.1:
 
 ```
 cp -r skills/buttonmasher .claude/skills/

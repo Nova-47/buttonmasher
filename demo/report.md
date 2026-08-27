@@ -2,34 +2,44 @@ BUTTONMASHER
 
 BROKE — double-click charges twice
 
-I sent two identical POST /api/checkout for cart_1 at the same instant (FIX=0), then a third one after success.
+I sent two identical POST /api/checkout at the same instant (FIX=0).
 
-`checkout` at `demo/server.js:48` calls `stripe.createIntent` before anything checks whether cart_1 already has an order, and `insertOrder` at `demo/server.js:22` pushes unconditionally. Every request is a fresh charge and a fresh order; there is no window to lose, there is simply no check.
-
-Impact:
-Two clicks, two 4900 charges, two orders. Retry after a dropped response is a third. Money and records both duplicate.
-
-Smallest fix:
-Unique on orders(cart_id) plus an idempotency key on the charge — that is exactly FIX=2 in this file. Proposed, not applied: the buggy mode is the demo's on-purpose baseline.
-
-Retest:
-FIX=2, same two parallel POSTs: 201 then 200, both returning ord_1/pi_1. State: 1 order, 1 charge. Retry after success also returned ord_1. Boring.
-
-BROKE — unique constraint only, card still charged twice
-
-I ran the same pair with FIX=1 (unique index only).
-
-The constraint at `demo/server.js:19` fires at insert time, but the charge at `demo/server.js:48` has already gone out on both requests. Second request gets 200 with the existing order; its pi_2 is orphaned — money taken, no order pointing at it. Retry after success made pi_3.
+Both returned 201 with different orders (ord_1/pi_1, ord_2/pi_2). `checkout` at `demo/server.js:48` charges the card before `insertOrder` at `:54`, and with FIX=0 nothing is unique on `orders.cartId` and nothing keys the Stripe call, so two concurrent requests each run the full path.
 
 Impact:
-Records look correct (1 order); the customer is charged once per click. Worst version: the dashboard says fine.
+Two charges and two orders for one cart. Same cart three times if the user also retries later.
 
 Smallest fix:
-Idempotency key `cart-${cart.id}` on `createIntent` (FIX=2). Proposed for the same reason as above.
+Proposed, not applied: the file ships the fix deliberately behind `FIX=2` (unique index on `orders(cart_id)` at `:19` + `idempotencyKey: cart-<id>` at `:50`). Run it that way; both guards are needed, see next finding.
 
 Retest:
-Covered by the FIX=2 run: charges stayed at 1 across three requests.
+FIX=2, same double-click: 201 + 200 both returning ord_1/pi_1. orders=1, charges=1. Boring.
 
-Out of scope for me: no auth on /api/checkout, anyone can check out any cartId. Run a security review.
+BROKE — unique constraint alone still charges twice
 
-Empty body (`{}`) returned 404 "no such cart" without charging; refresh and Back have nothing server-side to break here. Both boring.
+I ran the same double-click and a later retry against FIX=1.
+
+The unique index at `:19` dedupes the order (orders=1) but the charge at `:48` has already happened by the time the insert fails; the catch at `:56` swallows the violation and returns the first order while the extra `pi_2`/`pi_3` intents stay on the customer's card. Charges: 3 for 1 order.
+
+Impact:
+Money leaks silently. The API says "one order" and the customer's statement says three.
+
+Smallest fix:
+Proposed: idempotency key on the charge, i.e. what `:50` already does when `FIX>=2`. Alternatively insert the order first and charge after, so the constraint guards the charge too.
+
+Retest:
+FIX=2 retry-later: 200 ord_1/pi_1, orders=1 charges=1.
+
+BROKE — retry after lost response
+
+I sent a third POST after the first two completed (FIX=0).
+
+201 ord_3/pi_3. Nothing on the server checks for an existing order on the cart before charging, so a client retry after a timeout is indistinguishable from a new checkout.
+
+Impact:
+Same as above; covered by the FIX=2 changes.
+
+Retest:
+Covered in FIX=2 run above.
+
+Refresh, Back, and empty submit (`{}` → 404 no such cart, no charge) were all boring.
