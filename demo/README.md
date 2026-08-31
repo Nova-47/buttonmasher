@@ -82,9 +82,14 @@ slash commands are unaffected.
 It started the server itself, ran all three modes, and found the FIX=1
 double charge (and the triple charge on retry, which `mash.js` does not even
 try). `check-report.js` is the format gate: opens with `BUTTONMASHER`, no
-headers, no emoji, no preamble, a Retest for every BROKE, and no closing
-recap. The first recorded run failed that last check: the model wrote a
-three-line "Recap" where SKILL.md asked for one closing line. SKILL.md now
-says so explicitly (no Recap, no Summary, the boring line is the end), and
-the report here is the re-run under that rule: 8/8. Keep the checker; that is
-the kind of drift a format rule alone will not stop the next time.
+headers, no emoji, no preamble, a Retest for every BROKE, no closing recap,
+every Retest tagged `Reproduced` or `Traced`, and — the newest check — a
+money/duplicate outcome is never labeled below BROKE. That last one is a
+regression guard for a real inconsistency the cal.com benchmark exposed
+(`bench/stage2-calcom/`): two runs scored the same double-booking as FRAGILE
+in one and BROKE in the other, because the old severity table mixed "how bad
+is the outcome" with "did you reproduce it." SKILL.md now splits those into a
+priority-ordered outcome tree plus a separate `Reproduced`/`Traced` tag, and
+the gate fails the old FRAGILE-with-a-double-charge shape. The Recap drift
+that an earlier run introduced is also still caught. Keep the checker; these
+are the kinds of drift a prose rule alone will not stop the next time.

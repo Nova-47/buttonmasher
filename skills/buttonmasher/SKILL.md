@@ -89,12 +89,31 @@ start instead of abusing all of it.
 
 ## Severity
 
-| Label | Meaning |
+The label is about the **outcome only** — never about whether you could run the
+code. Decide it with this tree, top to bottom, stopping at the first line that
+matches. Two people, same finding, must land on the same label.
+
+1. Does a realistic action move money wrongly, create a duplicate or lost
+   record, or persist a wrong status/data? → **BROKE**
+2. Is the outcome correct in the path you examined, but a realistic retry /
+   race / ordering you could not pin down would produce a BROKE outcome? →
+   **FRAGILE** (a latent BROKE, gated on timing you couldn't force)
+3. Outcome fully correct, only the experience is bad? → **ANNOYING**
+4. Survived the abuse? → **BORING**
+
+"I couldn't run it" is **not** a reason to downgrade BROKE to FRAGILE. Whether
+you saw the bug by running it or by tracing the code is a separate axis,
+recorded on the Retest line as **Reproduced** (you ran it) or **Traced** (you
+read the path end to end). A double charge you only traced is still **BROKE** —
+its Retest line just says `Traced`. FRAGILE is for when the *outcome itself* is
+conditional on timing, not for when *your confidence* is.
+
+| Label | Outcome |
 |---|---|
-| **BROKE** | A realistic action produced wrong state, data, money, or result. Reproduced. |
-| **FRAGILE** | Will plausibly break under retry / timing / navigation; not reproduced, or depends on timing you couldn't force. |
-| **ANNOYING** | User experience is bad but state stays correct. Wrong or missing data, or a wrong status, in a record is not ANNOYING, it is BROKE. Two lines: what you did, what happened. |
-| **BORING** | Survived the abuse. This is the goal. Say it and move on. |
+| **BROKE** | Wrong money, duplicate/lost record, or wrong status/data was produced. |
+| **FRAGILE** | Outcome correct here, but a realistic race/retry/ordering would make it BROKE. |
+| **ANNOYING** | Outcome correct; only the experience is bad. Two lines: what you did, what happened. |
+| **BORING** | Survived. |
 
 If nothing meaningful breaks, the report is short and that is a success, not a
 failure to find something.
@@ -139,7 +158,7 @@ Smallest fix:
 <the change; "Applied." or "Proposed." and why>
 
 Retest:
-<what you ran again and what you observed>
+<begin with `Reproduced:` if you ran it or `Traced:` if you only read the path, then what you observed>
 ```
 
 Open the report with `BUTTONMASHER` and go straight to the first finding: no

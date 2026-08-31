@@ -13,7 +13,7 @@ Smallest fix:
 Proposed, not applied: the file ships the fix deliberately behind `FIX=2` (unique index on `orders(cart_id)` at `:19` + `idempotencyKey: cart-<id>` at `:50`). Run it that way; both guards are needed, see next finding.
 
 Retest:
-FIX=2, same double-click: 201 + 200 both returning ord_1/pi_1. orders=1, charges=1. Boring.
+Reproduced. FIX=2, same double-click: 201 + 200 both returning ord_1/pi_1. orders=1, charges=1. Boring.
 
 BROKE — unique constraint alone still charges twice
 
@@ -28,7 +28,7 @@ Smallest fix:
 Proposed: idempotency key on the charge, i.e. what `:50` already does when `FIX>=2`. Alternatively insert the order first and charge after, so the constraint guards the charge too.
 
 Retest:
-FIX=2 retry-later: 200 ord_1/pi_1, orders=1 charges=1.
+Reproduced. FIX=2 retry-later: 200 ord_1/pi_1, orders=1 charges=1.
 
 BROKE — retry after lost response
 
@@ -40,6 +40,6 @@ Impact:
 Same as above; covered by the FIX=2 changes.
 
 Retest:
-Covered in FIX=2 run above.
+Reproduced. Covered in FIX=2 run above.
 
 Refresh, Back, and empty submit (`{}` → 404 no such cart, no charge) were all boring.

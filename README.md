@@ -149,17 +149,23 @@ Or just ask: *"buttonmash the webhook handler"*, *"what happens if the user
 clicks this twice?"*, *"is this endpoint safe to retry?"* The skill triggers
 on its own for that kind of question.
 
-If a browser or a running server is available, it actually clicks twice and
-actually sends two requests. If not, it traces the code path and says so.
+On a repo light enough to boot in the session — one that installs and runs
+without a live database or a heavy build — it starts the app and actually sends
+the two requests. On a repo too heavy to boot it traces the code path by hand
+instead, and labels every finding `Traced` rather than `Reproduced`, so you
+always know which one you got.
 
 ## Severity
 
 | Label | Meaning |
 |---|---|
-| **BROKE** | Realistic action produced wrong state, data, or money. Reproduced. |
-| **FRAGILE** | Likely to break under retry/timing/navigation. Not reproduced. |
-| **ANNOYING** | Bad experience, correct state. Mentioned, not dwelt on. |
+| **BROKE** | Wrong money, a duplicate/lost record, or a wrong status was produced. |
+| **FRAGILE** | Correct here, but a realistic race/retry would make it BROKE. |
+| **ANNOYING** | Outcome correct, experience bad. Mentioned, not dwelt on. |
 | **BORING** | Survived. This is what you want. |
+
+Each finding is also tagged `Reproduced` (it ran the code) or `Traced` (it read
+the path) — severity is about the outcome, not about whether it could boot the repo.
 
 ## Install
 
@@ -209,8 +215,8 @@ buttonmasher/
 ```
 
 No hooks, no dependencies, no config. The only scripts are the demo, and
-they exist because a skill that says "I clicked it twice" should be able to
-prove it.
+they exist so the front-page double-charge claim is something you can run
+yourself, not just read.
 
 ## Why this isn't just tests, or just chaos engineering
 
