@@ -14,7 +14,13 @@ not going to wait for the spinner.
 
 buttonmasher puts him inside your AI agent.
 
-An agent skill that tests your code the way real users eventually will: repeatedly, impatiently, and out of order.
+Most code review reads your code. This runs it the way a real user does — double-clicking Submit, retrying after a timeout, hitting Back and going again, opening two tabs, replaying the webhook.
+
+Two things break when they do that. **Something that should happen exactly once happens twice** — a charge, an order, a booking, a stock decrement, a coupon redemption, a credit deduction, an email. And **something that was already finished happens again** — a cancelled booking gets rescheduled, an expired token still works, a completed job re-runs.
+
+Those bugs don't show up in the code. They show up in the sequence.
+
+> It is not a replacement for code review. In our own benchmark on a small template repo, a plain review prompt found more real bugs than we did (10 vs 5). On a stateful production path, we found six lifecycle and idempotency bugs it found zero of. Both runs are in [`bench/`](bench/), raw output included.
 
 <sub><a href="README.ko.md">한국어</a></sub>
 

@@ -1,0 +1,72 @@
+name: "Report a catch (or a miss)"
+description: "Tell us what buttonmasher found — or failed to find — in your codebase."
+title: "[catch] "
+labels: ["field-report"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for actually running it. Field reports are the only way this gets better —
+        misses and false positives are just as useful as catches, and we publish both.
+
+        직접 돌려주셔서 감사합니다. 못 잡은 것과 오탐도 잡은 것만큼 중요합니다 — 둘 다 공개합니다.
+
+  - type: dropdown
+    id: outcome
+    attributes:
+      label: What happened?
+      options:
+        - It caught a real bug
+        - It missed a bug I already knew about
+        - It reported something that wasn't a bug (false positive)
+        - Something else
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What was the bug?
+      description: "One or two sentences. What breaks, and what does the user see?"
+      placeholder: "Double-clicking Submit created two orders. Second one charged the card again."
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: How does it happen?
+      description: "The sequence a real user hits. Don't worry about polish."
+      placeholder: |
+        1. Fill checkout, click Pay
+        2. Response is slow, click again
+        3. Two charges
+    validations:
+      required: false
+
+  - type: input
+    id: stack
+    attributes:
+      label: Stack / framework
+      placeholder: "Next.js + Prisma + Stripe"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: ci
+    attributes:
+      label: Would you want this running automatically in CI on every PR?
+      options:
+        - "Yes — I'd want it on every PR"
+        - "Maybe, depends on how noisy it is"
+        - "No, I'd rather run it by hand"
+    validations:
+      required: true
+
+  - type: textarea
+    id: anything
+    attributes:
+      label: Anything else?
+      description: "What kind of bug do you wish it caught that it doesn't?"
+    validations:
+      required: false

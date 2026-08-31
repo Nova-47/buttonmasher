@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: "What should it catch next?"
+    url: https://github.com/Nova-47/buttonmasher/discussions
+    about: "Ideas, arguments, and what it should look for that it doesn't yet."
