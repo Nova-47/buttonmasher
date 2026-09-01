@@ -9,6 +9,8 @@ body:
         Thanks for actually running it. Field reports are the only way this gets better —
         misses and false positives are just as useful as catches, and we publish both.
 
+        직접 돌려주셔서 감사합니다. 못 잡은 것과 오탐도 잡은 것만큼 중요합니다 — 둘 다 공개합니다.
+
   - type: dropdown
     id: outcome
     attributes:
