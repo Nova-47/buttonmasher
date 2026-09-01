@@ -81,3 +81,5 @@ git commit --amend -s
 ```bash
 node demo/check-report.js demo/report.md
 ```
+
+<!-- dco install test, delete this branch -->
