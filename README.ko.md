@@ -288,6 +288,12 @@ buttonmasher는 그 사이를 노립니다.
 
 코드에 문제가 하나보다 많았던 겁니다.
 
+## 기여
+
+가장 도움이 되는 건 **못 잡은 사례** — 당신 코드에서 이 스킬이 놓친 버그입니다.
+잡은 것과 함께 공개합니다. 커밋에는 DCO 한 줄 서명이 필요합니다(`git commit -s`).
+자세한 건 [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## 라이선스
 
 [MIT](LICENSE)

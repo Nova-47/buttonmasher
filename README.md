@@ -264,6 +264,12 @@ want the union, run it twice.
 No. The fix for a double-submit is one `disabled` attribute and one unique
 index. If it proposes more than that, the code had more than one problem.
 
+## Contributing
+
+The most useful thing you can send is a **miss** — a bug it failed to catch in
+your code. Those get published next to the catches. Commits need a one-line DCO
+sign-off (`git commit -s`); details in [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## License
 
 [MIT](LICENSE)
