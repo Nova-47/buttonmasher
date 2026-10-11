@@ -104,7 +104,7 @@ codex plugin marketplace add Nova-47/buttonmasher && codex plugin add buttonmash
 copilot plugin marketplace add Nova-47/buttonmasher && copilot plugin install buttonmasher@buttonmasher
 ```
 
-Codex·Copilot 매니페스트는 만들어 두었지만, 실제 설치는 아직 검증하지 않았습니다.
+Codex는 2026-10-11에 확인했습니다(codex-cli 0.146.0). 위 두 명령으로 설치되고, `demo/server.js`에 돌렸을 때 서버를 직접 띄워 이중 결제를 재현했습니다. Copilot은 아직 검증하지 않았습니다.
 
 `SKILL.md`를 읽는 다른 도구(Cursor, OpenCode, Gemini CLI 등)는 폴더를 복사하면 됩니다.
 

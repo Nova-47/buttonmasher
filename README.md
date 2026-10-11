@@ -202,8 +202,10 @@ cp -r buttonmasher/skills/buttonmasher .agents/skills/        # Codex / Copilot,
 
 The skill is one Markdown file plus one reference table. No hooks, so there is
 nothing to port; if your agent loads `SKILL.md` files, it loads this one. The
-Codex and Copilot manifests mirror ponytail's, which are known to install; they
-have not been exercised against those CLIs from this repo yet.
+Codex install was checked on 2026-10-11 (codex-cli 0.146.0): both commands
+above succeed, and `codex exec` on `demo/server.js` reproduced the double charge
+by running the server. The Copilot manifest mirrors ponytail's and has not been
+exercised from this repo yet.
 
 ### What's in the box
 
